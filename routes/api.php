@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\DataKualitasAirController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('kualitas_air', [DataKualitasAirController::class, 'index']);
+Route::get('/kualitas_air/{id}', [DataKualitasAirController::class, 'view']);
+Route::post('kualitas_air', [DataKualitasAirController::class, 'store']);
+Route::put('/kualitas_air/{id}', [DataKualitasAirController::class, 'update']);
+Route::delete('/kualitas_air/{id}', [DataKualitasAirController::class, 'delete']);
