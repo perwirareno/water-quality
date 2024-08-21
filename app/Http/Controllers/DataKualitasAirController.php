@@ -12,7 +12,7 @@ class DataKualitasAirController extends Controller
 {
     public function index(){
         try {
-            $data = TblKualitasAir::all();
+            $data = TblKualitasAir::orderBy('id', 'DESC')->get();
             $data_response = Helpers::generateResponse(1, 200, trans('KualitasAirMessage.success_view_all'), $data, null);
         } catch (Exception $e) {
             $data_response = Helpers::getException($e);
@@ -25,26 +25,25 @@ class DataKualitasAirController extends Controller
         try {
             $id = $request->id;
             
-            if (isset($id)) {
-                $data = TblKualitasAir::find($id);
-                if ($data) {
-                    $data_response = Helpers::generateResponse(1, 200, trans('KualitasAirMessage.success_view_by_id'), $data, null);
-                } else {
-                    $data_response = Helpers::generateResponse(0, 404, trans('KualitasAirMessage.failed_view_by_id'), null, null);
-                }
+            $data = TblKualitasAir::where('id', $id)->first();
+            if (isset($data->id)) {
+                return $data_response = Helpers::generateResponse(1, 200, trans('KualitasAirMessage.success_view_by_id'), $data, null);
+            } else {
+                return $data_response = Helpers::generateResponse(0, 404, trans('KualitasAirMessage.failed_view_by_id'), null, null);
             }
         } catch (Exception $e) {
-            $data_response = Helpers::getException($e);
+            return $data_response = Helpers::getException($e);
         }
-
-        return $data_response;
     }
 
     public function store(Request $request){
         DB::beginTransaction();
         try {
+            $data_id = TblKualitasAir::orderBy('id', 'DESC')->select('id')->first();
+            $seq_id = $data_id->id + 1;
+
             $data_kualitas_air = new TblKualitasAir;
-            $data_kualitas_air->id = $request->id;
+            $data_kualitas_air->id = $seq_id;
             $data_kualitas_air->temperatur = $request->temperatur;
             $data_kualitas_air->tds = $request->tds;
             $data_kualitas_air->tss = $request->tss;

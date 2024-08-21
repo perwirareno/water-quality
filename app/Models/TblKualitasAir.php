@@ -8,6 +8,6 @@ class TblKualitasAir extends Model
 {
     protected $primaryKey = 'id';
     protected $table = 'tbl_kualitas_air';
-    protected $fillable = ['temperatur', 'tds', 'tss', 'ph', 'bod', 'cod', 'do', 'curah_hujan', 'kelas'];
+    protected $fillable = ['id', 'temperatur', 'tds', 'tss', 'ph', 'bod', 'cod', 'do', 'curah_hujan', 'kelas'];
     public $timestamps = false;
 }
